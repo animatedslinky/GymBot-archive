@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Configuration;
 using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Slinkybot
 {
@@ -20,6 +22,7 @@ namespace Slinkybot
         private ConnectionConfig connectionConfig;
 
         private string connectionSettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlinkyBot\\ConnectionSettings.xml");
+        private string gymsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlinkyBot\\Gyms.xml");
         private TwitchChat chatBot;
         private System.Windows.Threading.DispatcherTimer dispatcherTimer;
         private CollectionView view;
@@ -44,8 +47,7 @@ namespace Slinkybot
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Something is configured incorrectly");
-                        
+                        MessageBox.Show("Something is configured incorrectly");                        
                     }
                 }
                 if (!configured)
@@ -59,6 +61,25 @@ namespace Slinkybot
             chatBot = new TwitchChat(connectionConfig);
 
             lvUsers.ItemsSource = chatBot.gymBotCommand.gymLeaders;
+
+            if (File.Exists(gymsFile))
+            {
+                try
+                {
+                    using (StreamReader file = File.OpenText(gymsFile))
+                    {
+                        var leaders = JsonConvert.DeserializeObject<ObservableCollection<GymCommands.GymLeader>>(file.ReadToEnd());
+                        foreach (GymCommands.GymLeader leader in leaders)
+                        {
+                            chatBot.gymBotCommand.gymLeaders.Add(leader);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to load Gyms: " + ex);
+                }
+            }
 
             view = (CollectionView)CollectionViewSource.GetDefaultView(lvUsers.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("gymType");

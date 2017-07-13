@@ -49,9 +49,12 @@ namespace Slinkybot
         private List<string> chattersList;
         private bool isRunning;
 
+        [JsonProperty("GymLeaders")]
         public ObservableCollection<GymLeader> gymLeaders;
 
         EventWaitHandle sleepHandle;
+
+        
         public enum GymType
         {
             Gym,
@@ -62,7 +65,10 @@ namespace Slinkybot
         {
             public string Name { get; set; }
             public string Online { get; set; }
+
+            [JsonProperty("GymType")]
             public GymType gymType { get; set; }
+
             public int offlineCountdown { get; set; }
             public string gymUpCommand { get; set; }
             public string gymDownCommand { get; set; }
@@ -77,21 +83,7 @@ namespace Slinkybot
             isRunning = true;
             this.channel = channel;
 
-            gymLeaders = new ObservableCollection<GymLeader>()
-            {
-                new GymLeader() {Name = "kyawolfcupcakes",      gymType=GymType.Elite4, Online = "Offline", offlineCountdown=0, gymUpCommand = "", gymDownCommand = "", gymUpMessage = "", gymDownMessage = ""},
-                new GymLeader() {Name = "swagmandergaming",     gymType=GymType.Elite4, Online = "Offline", offlineCountdown=0, gymUpCommand = "", gymDownCommand = "", gymUpMessage = "", gymDownMessage = ""},
-                new GymLeader() {Name = "marshallartistuk",     gymType=GymType.Elite4, Online = "Offline", offlineCountdown=0, gymUpCommand = "", gymDownCommand = "", gymUpMessage = "", gymDownMessage = ""},
-                new GymLeader() {Name = "strikewitch50",        gymType=GymType.Elite4, Online = "Offline", offlineCountdown=0, gymUpCommand = "", gymDownCommand = "", gymUpMessage = "", gymDownMessage = ""},
-                new GymLeader() {Name = "cybereli01",           gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!flowerup", gymDownCommand = "!flowerdown", gymUpMessage = "@cybereli01 has opened their gym, please whisper them your fc and ign to queue up!",       gymDownMessage = "@cybereli01 has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "soccerdude26",         gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!flyup",    gymDownCommand = "!flydown",    gymUpMessage = "@soccerdude26 has opened their gym, please whisper them your fc and ign to queue up!",     gymDownMessage = "@soccerdude26 has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "9connor4",             gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!iceup",    gymDownCommand = "!icedown",    gymUpMessage = "@9connor4 has opened their gym, please whisper them your fc and ign to queue up!",         gymDownMessage = "@9connor4 has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "newpokebattler",       gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!fairyup",  gymDownCommand = "!fairydown",  gymUpMessage = "These fairies don't play nice, can you keep them in check? @newpokebattler has opened their gym, please whisper them your fc and ign to queue up!",   gymDownMessage = "@newpokebattler has closed their gym, please return next time!"},
-                new GymLeader() {Name = "scarfedsylveon",       gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!dragonup", gymDownCommand = "!dragondown", gymUpMessage = "@scarfedsylveon has opened their gym, please whisper them your fc and ign to queue up!",   gymDownMessage = "@scarfedsylveon has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "dillconley112",        gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!zapup",    gymDownCommand = "!zapdown",    gymUpMessage = "@dillconley112 has opened their gym, please whisper them your fc and ign to queue up!",    gymDownMessage = "@dillconley112 has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "magicjnm",             gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!ghostup",  gymDownCommand = "!ghostdown",  gymUpMessage = "@magicjnm has opened their gym, please whisper them your fc and ign to queue up!",         gymDownMessage = "@magicjnm has closed their gym, they are no longer taking battles for now."},
-                new GymLeader() {Name = "blacksunomega",        gymType=GymType.Gym,    Online = "Offline", offlineCountdown=0, gymUpCommand = "!rockup",  gymDownCommand = "!rockdown",  gymUpMessage = "@blacksunomega has opened their gym, please whisper them your fc and ign to queue up!",         gymDownMessage = "@blacksunomega has closed their gym, they are no longer taking battles for now."},
-            };
+            gymLeaders = new ObservableCollection<GymLeader>();
 
             chattersList = new List<string>();
             channelListThreadHandle = new Thread(new ThreadStart(channelListThread));

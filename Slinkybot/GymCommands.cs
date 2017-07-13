@@ -40,6 +40,8 @@ namespace Slinkybot
 
     class GymCommands
     {
+        private string gymsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlinkyBot\\Gyms.xml");
+
         private const int numberOfMissedChecksAllowed = 5;
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -54,7 +56,7 @@ namespace Slinkybot
 
         EventWaitHandle sleepHandle;
 
-        
+
         public enum GymType
         {
             Gym,
@@ -85,10 +87,58 @@ namespace Slinkybot
 
             gymLeaders = new ObservableCollection<GymLeader>();
 
+            if (File.Exists(gymsFile))
+            {
+                using (StreamReader file = File.OpenText(gymsFile))
+                {
+                    var leaders = JsonConvert.DeserializeObject<ObservableCollection<GymCommands.GymLeader>>(file.ReadToEnd());
+                    foreach (GymCommands.GymLeader leader in leaders)
+                    {
+                        gymLeaders.Add(leader);
+                    }
+                }
+
+            }
+
             chattersList = new List<string>();
             channelListThreadHandle = new Thread(new ThreadStart(channelListThread));
             channelListThreadHandle.IsBackground = true;
             channelListThreadHandle.Start();
+        }
+
+        private void UpdateGymFile()
+        {
+            using (StreamWriter file = File.CreateText(gymsFile))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, gymLeaders);
+            }
+        }
+
+        public void AddOrUpdateLeader(GymLeader leader)
+        {
+            var item = gymLeaders.FirstOrDefault(i => i.Name.ToLower() == leader.Name.ToLower());
+            if (item != null)
+            {
+                int i = gymLeaders.IndexOf(item);
+                gymLeaders[i] = leader;
+            }
+            else
+            {
+                gymLeaders.Add(leader);
+            }
+            UpdateGymFile();
+            
+        }
+
+        public void RemoveLeader(string name)
+        {
+            var item = gymLeaders.FirstOrDefault(i => i.Name.ToLower() == name);
+            if (item != null)
+            {
+                gymLeaders.Remove(item);
+                UpdateGymFile();
+            }
         }
 
         private TwitchResponse processGymCommand()

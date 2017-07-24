@@ -223,14 +223,14 @@ namespace Slinkybot
             {
                 response = processGymCommand();
             }
-            else if (command.ToLower().StartsWith("!gymup"))
+            else if (command.ToLower().StartsWith("!opengym"))
             {
                 var leader = from l in gymLeaders
                              where l.Name.ToLower() == username.ToLower()
                              select l;
                 response = processOpenGymCommand(username, leader.First().gymUpMessage);
             }
-            else if (command.ToLower().StartsWith("!gymdown"))
+            else if (command.ToLower().StartsWith("!closegym"))
             {
                 var leader = from l in gymLeaders
                              where l.Name.ToLower() == username.ToLower()

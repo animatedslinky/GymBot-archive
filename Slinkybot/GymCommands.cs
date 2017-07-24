@@ -72,8 +72,8 @@ namespace Slinkybot
             public GymType gymType { get; set; }
 
             public int offlineCountdown { get; set; }
-            public string gymUpCommand { get; set; }
-            public string gymDownCommand { get; set; }
+            //public string gymUpCommand { get; set; }
+            //public string gymDownCommand { get; set; }
             public string gymUpMessage { get; set; }
             public string gymDownMessage { get; set; }
         }
@@ -223,19 +223,34 @@ namespace Slinkybot
             {
                 response = processGymCommand();
             }
-            else if (command.ToLower().StartsWith("!"))
+            else if (command.ToLower().StartsWith("!gymup"))
             {
                 var leader = from l in gymLeaders
                              where l.Name.ToLower() == username.ToLower()
                              select l;
-                if (leader.Count() > 0)
-                {
-                    if (command.ToLower().StartsWith(leader.First().gymUpCommand))
-                        response = processOpenGymCommand(username, leader.First().gymUpMessage);
-                    else if (command.ToLower().StartsWith(leader.First().gymDownCommand))
-                        response = processCloseGymCommand(username, leader.First().gymDownMessage);
-                }
+                response = processOpenGymCommand(username, leader.First().gymUpMessage);
             }
+            else if (command.ToLower().StartsWith("!gymdown"))
+            {
+                var leader = from l in gymLeaders
+                             where l.Name.ToLower() == username.ToLower()
+                             select l;
+                response = processCloseGymCommand(username, leader.First().gymDownMessage);
+            }
+
+                //else if (command.ToLower().StartsWith("!"))
+                //{
+                //    var leader = from l in gymLeaders
+                //                 where l.Name.ToLower() == username.ToLower()
+                //                 select l;
+                //    if (leader.Count() > 0)
+                //    {
+                //        if (command.ToLower().StartsWith(leader.First().gymUpCommand))
+                //            response = processOpenGymCommand(username, leader.First().gymUpMessage);
+                //        else if (command.ToLower().StartsWith(leader.First().gymDownCommand))
+                //            response = processCloseGymCommand(username, leader.First().gymDownMessage);
+                //    }
+                //}
             return response;
         }
 

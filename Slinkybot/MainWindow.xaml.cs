@@ -53,6 +53,11 @@ namespace Slinkybot
                 if (!configured)
                 {
                     configured = Configure(connectionConfig);
+                    if (!configured)
+                    {
+                        Application.Current.Shutdown();
+                        return;
+                    }
                 }
             } while (!configured);
 
@@ -88,7 +93,6 @@ namespace Slinkybot
                 }
                 ret = true;
             }
-
             return ret;
         }
 

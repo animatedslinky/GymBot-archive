@@ -13,6 +13,12 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_Configure" Click="ConfigureMenuItem_Click"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="_Gyms">
+                    <MenuItem Header="_Add"></MenuItem>
+                    <MenuItem Header="_Update"></MenuItem>
+                    <MenuItem Header="_Remove"></MenuItem>
+
+                </MenuItem>
             </Menu>
         </StackPanel>
         <StackPanel Margin="15" HorizontalAlignment="Center">

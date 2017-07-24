@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Slinkybot
 {
@@ -100,7 +101,6 @@ namespace Slinkybot
         {
             // Forcing the CommandManager to raise the RequerySuggested event            
             view.Refresh();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -141,6 +141,40 @@ namespace Slinkybot
             if (Configure(connectionConfig))
             {
                 MessageBox.Show("If you updated your configuration you must restart the app.  Sorry.");
+            }
+        }
+
+        private void AddLeaderMenu_Click(object sender, RoutedEventArgs e)
+        {
+            AddUpdateDialog dialog = new AddUpdateDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                chatBot.gymBotCommand.AddOrUpdateLeader(dialog.leader);
+            }
+        }
+
+        private void UpdateLeaderMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SelectLeaderDialog selectLeaderDialog = new SelectLeaderDialog(chatBot.gymBotCommand.gymLeaders,"Modify gym information for");
+            if (selectLeaderDialog.ShowDialog() == true)
+            {
+                var leader = from l in chatBot.gymBotCommand.gymLeaders
+                                   where l.Name.ToLower() == selectLeaderDialog.SelectedLeader.ToLower()
+                                   select l;
+                AddUpdateDialog dialog = new AddUpdateDialog(leader.FirstOrDefault());
+                if (dialog.ShowDialog() == true)
+                {
+                    chatBot.gymBotCommand.AddOrUpdateLeader(dialog.leader);
+                }
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectLeaderDialog selectLeaderDialog = new SelectLeaderDialog(chatBot.gymBotCommand.gymLeaders, "DELETE GYM LEADER");
+            if (selectLeaderDialog.ShowDialog() == true)
+            {
+                chatBot.gymBotCommand.RemoveLeader(selectLeaderDialog.SelectedLeader);
             }
         }
     }

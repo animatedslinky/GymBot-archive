@@ -38,6 +38,25 @@ namespace Slinkybot
         public Chatters chatters { get; set; }
     }
 
+    public class GymLeader
+    {
+        public string Name { get; set; }
+        public string Online { get; set; }
+
+        [JsonProperty("GymType")]
+        public GymType gymType { get; set; }
+
+        public int offlineCountdown { get; set; }
+        public string gymUpMessage { get; set; }
+        public string gymDownMessage { get; set; }
+    }
+
+    public enum GymType
+    {
+        Gym,
+        Elite4
+    };
+
     class GymCommands
     {
         private string gymsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SlinkyBot\\Gyms.xml");
@@ -57,26 +76,7 @@ namespace Slinkybot
         EventWaitHandle sleepHandle;
 
 
-        public enum GymType
-        {
-            Gym,
-            Elite4
-        };
 
-        public class GymLeader
-        {
-            public string Name { get; set; }
-            public string Online { get; set; }
-
-            [JsonProperty("GymType")]
-            public GymType gymType { get; set; }
-
-            public int offlineCountdown { get; set; }
-            //public string gymUpCommand { get; set; }
-            //public string gymDownCommand { get; set; }
-            public string gymUpMessage { get; set; }
-            public string gymDownMessage { get; set; }
-        }
 
         public GymCommands(string channel)
         {
@@ -91,8 +91,8 @@ namespace Slinkybot
             {
                 using (StreamReader file = File.OpenText(gymsFile))
                 {
-                    var leaders = JsonConvert.DeserializeObject<ObservableCollection<GymCommands.GymLeader>>(file.ReadToEnd());
-                    foreach (GymCommands.GymLeader leader in leaders)
+                    var leaders = JsonConvert.DeserializeObject<ObservableCollection<GymLeader>>(file.ReadToEnd());
+                    foreach (GymLeader leader in leaders)
                     {
                         gymLeaders.Add(leader);
                     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Slinkybot"
         mc:Ignorable="d"
-        Title="Pokemon League Gym Bot" Height="700" Width="418.75" FontSize="14" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="Pokemon League Gym Bot" Height="700" Width="450" FontSize="14" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
 
     <Grid Margin="10">
         <StackPanel>
@@ -49,11 +49,12 @@
                 </Button>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Margin="10">
-                <ListView Name="lvUsers" Width="300">
+                <ListView Name="lvUsers" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Leader" Width="150" DisplayMemberBinding="{Binding Name}" />
                             <GridViewColumn Header="GymStatus" Width="100" DisplayMemberBinding="{Binding Online}" />
+                            <GridViewColumn Header="LastOpen" Width="150" DisplayMemberBinding="{Binding LastOpen}" />
                         </GridView>
                     </ListView.View>
 

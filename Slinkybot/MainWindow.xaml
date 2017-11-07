@@ -16,7 +16,7 @@
                 <MenuItem Header="_Gyms">
                     <MenuItem Header="_Add" Click="AddLeaderMenu_Click"></MenuItem>
                     <MenuItem Header="_Update" Click="UpdateLeaderMenu_Click"></MenuItem>
-                    <MenuItem Header="_Remove" Click="MenuItem_Click"></MenuItem>
+                    <MenuItem Header="_Remove" Click="RemoveLeader_Click"></MenuItem>
 
                 </MenuItem>
             </Menu>

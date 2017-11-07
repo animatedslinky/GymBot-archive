@@ -163,7 +163,7 @@ namespace Slinkybot
 
         public void RemoveLeader(string name)
         {
-            var item = gymLeaders.FirstOrDefault(i => i.Name.ToLower() == name);
+            var item = gymLeaders.FirstOrDefault(i => i.Name.ToLower() == name.ToLower());
             if (item != null)
             {
                 gymLeaders.Remove(item);

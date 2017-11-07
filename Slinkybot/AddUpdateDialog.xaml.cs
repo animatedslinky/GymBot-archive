@@ -29,9 +29,9 @@ namespace Slinkybot
         {
             leader = new GymLeader
             {
-                Name = txtName.Text,
+                Name = txtName.Text.ToLower(),
                 Online = "Offline",
-                gymType = cbogymType.SelectedValue.ToString().Equals("Elite 4") ? GymType.Elite4 : GymType.Gym,
+                gymType = (cbogymType.SelectedIndex == 0)? GymType.Elite4 : GymType.Gym,
                 offlineCountdown = 0,
                 gymUpMessage = txtGymUp.Text,
                 gymDownMessage = txtGymDown.Text

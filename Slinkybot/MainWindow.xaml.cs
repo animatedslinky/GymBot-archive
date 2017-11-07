@@ -169,7 +169,7 @@ namespace Slinkybot
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void RemoveLeader_Click(object sender, RoutedEventArgs e)
         {
             SelectLeaderDialog selectLeaderDialog = new SelectLeaderDialog(chatBot.gymBotCommand.gymLeaders, "DELETE GYM LEADER");
             if (selectLeaderDialog.ShowDialog() == true)
